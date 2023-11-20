@@ -1,8 +1,10 @@
 package interfaces
 
+import "context"
+
 type Inter interface {
-	Set(key string, value interface{}) error
-	Get(key string) (interface{}, error)
-	Delete(key string) error
-	Check(key string) (bool, error)
+	Set(ctx context.Context, key string, value interface{}) error
+	Get(ctx context.Context, key string) (interface{}, error)
+	Delete(ctx context.Context, key string) error
+	Check(ctx context.Context, key string) (bool, error)
 }
