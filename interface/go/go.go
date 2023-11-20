@@ -28,7 +28,8 @@ func (d Database) Get(ctx context.Context, key string) (interface{}, error) {
 	}
 	return value, nil
 }
-func (d Database) Delete(key string) error {
+
+func (d Database) Delete(ctx context.Context, key string) error {
 	if d.Data == nil {
 		log.Println("Не удалось получить данные")
 	}
@@ -40,10 +41,14 @@ func (d Database) Delete(key string) error {
 	return nil
 }
 
-func (d Database) Check(key string) (bool, error) {
+func (d Database) Check(ctx context.Context, key string) (bool, error) {
 	if d.Data == nil {
 		log.Println("Не удалось получить данные")
 	}
 	_, found := d.Data[key]
 	return found, nil
+}
+
+func NewStorage(key, value string) interface{} {
+
 }
