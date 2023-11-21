@@ -49,6 +49,8 @@ func (d Database) Check(ctx context.Context, key string) (bool, error) {
 	return found, nil
 }
 
-func NewStorage(key, value string) interface{} {
-
+func NewData() *Database {
+	return &Database{
+		Data: make(map[string]interface{}),
+	}
 }
