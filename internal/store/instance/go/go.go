@@ -14,7 +14,7 @@ type database struct {
 	data map[int64]*model.User
 }
 
-func NewMapSore() store.Storage {
+func New() store.Storage {
 	return &database{
 		data: make(map[int64]*model.User),
 	}

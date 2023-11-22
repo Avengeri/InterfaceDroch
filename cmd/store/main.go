@@ -10,7 +10,7 @@ import (
 
 func main() {
 	ctx := context.Background()
-	storage := store_new.NewStore(store_new.StoreMap)
+	storage := store_new.NewStore(store_new.StorePostgres)
 	if storage == nil {
 		log.Fatal("storage is nil")
 		return

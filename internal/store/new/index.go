@@ -15,7 +15,7 @@ var (
 func NewStore(storeType StoreType) store.Storage {
 	switch storeType {
 	case StoreMap:
-		return store_map.NewMapSore()
+		return store_map.New()
 	case StorePostgres:
 		return nil
 	}
