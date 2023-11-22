@@ -8,8 +8,8 @@ import (
 type StoreType string
 
 var (
-	StoreMap      StoreType
-	StorePostgres StoreType
+	StoreMap      StoreType = "StoreMap"
+	StorePostgres StoreType = "StorePostgres"
 )
 
 func NewStore(storeType StoreType) store.Storage {
