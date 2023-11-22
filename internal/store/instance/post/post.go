@@ -1,19 +1,17 @@
 package post
 
 import (
+	interfaces1 "InterfaceDroch/internal/store"
 	"context"
 	"fmt"
 	"github.com/jackc/pgx/v5"
 	"log"
 )
 
-type User struct {
-	id   int64
-	name string
-}
+type Store string
 
 // Создает новую таблицу
-func NewTableStorage(ctx context.Context) (*pgx.Conn, error) {
+func NewStorage(ctx context.Context) (interfaces1.InterStorage, error) {
 	connStr := "user=k0natbl4 password=A19941994a dbname=interdroch_2 host=localhost port=5432"
 	conn, err := pgx.Connect(context.Background(), connStr)
 	if err != nil {
@@ -39,7 +37,7 @@ CREATE TABLE IF NOT EXISTS users(
 }
 
 // Создает юзера в таблице
-func (u User) SetStorage(ctx context.Context, id int64, name string) error {
+func (s Store) SetStorage(ctx context.Context, id int64, name string) error {
 
 	connStr := "user=k0natbl4 password=A19941994a dbname=interdroch_2 host=localhost port=5432"
 	conn, err := pgx.Connect(context.Background(), connStr)
@@ -56,7 +54,7 @@ INSERT INTO users(id, name) VALUES ($1,$2)
 }
 
 // Проверяет юзера в таблице по id
-func (u User) CheckStorage(ctx context.Context, id int64) (bool, error) {
+func (s Store) CheckStorage(ctx context.Context, id int64) (bool, error) {
 
 	connStr := "user=k0natbl4 password=A19941994a dbname=interdroch_2 host=localhost port=5432"
 	conn, err := pgx.Connect(context.Background(), connStr)
@@ -77,7 +75,7 @@ func (u User) CheckStorage(ctx context.Context, id int64) (bool, error) {
 }
 
 // Получает информацию об юзере по id
-func (u User) GetStorage(ctx context.Context, id int64) (string, error) {
+func (s Store) GetStorage(ctx context.Context, id int64) (string, error) {
 	connStr := "user=k0natbl4 password=A19941994a dbname=interdroch_2 host=localhost port=5432"
 	conn, err := pgx.Connect(context.Background(), connStr)
 	if err != nil {
@@ -98,7 +96,7 @@ func (u User) GetStorage(ctx context.Context, id int64) (string, error) {
 }
 
 // Удаляет информацию о пользователе
-func (u User) DeleteStorage(ctx context.Context, id int64) error {
+func (s Store) DeleteStorage(ctx context.Context, id int64) error {
 	connStr := "user=k0natbl4 password=A19941994a dbname=interdroch_2 host=localhost port=5432"
 	conn, err := pgx.Connect(context.Background(), connStr)
 	if err != nil {
