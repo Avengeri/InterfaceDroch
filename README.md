@@ -31,5 +31,5 @@ func main() {
 
 > Если вы хотите пожаловаться, то обязательно пишите [сюда](https://t.me/zak47) 
 
-![285-2854983_gopher-golang-russian-gophercon-russia-2018-hd-png.png](..%2F..%2F%D0%97%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B8%2F285-2854983_gopher-golang-russian-gophercon-russia-2018-hd-png.png)
+(https://www.pngitem.com/pimgs/m/285-2854983_gopher-golang-russian-gophercon-russia-2018-hd-png.png)
 
