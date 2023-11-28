@@ -4,7 +4,6 @@ import (
 	"InterfaceDroch/internal/model"
 	"context"
 	"fmt"
-	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
 	"log"
 )
@@ -14,32 +13,23 @@ type Postgres struct {
 }
 
 func NewPostgresDB() (*Postgres, error) {
-	connStr := "user=k0natbl4 password=A19941994a dbname=interdroch_2 host=localhost port=5432"
+	connStr := "user=postgres password=12345 dbname=postgres host=localhost port=5432"
 	dbConn, err := pgx.Connect(context.Background(), connStr)
 	if err != nil {
 		return nil, err
 	}
-
 	return &Postgres{conn: dbConn}, nil
 }
 
 func (p Postgres) Set(ctx context.Context, user *model.User) error {
-	id := uuid.New()
 
 	sqlStatement := `
 INSERT INTO users(id, name) VALUES ($1,$2)
 `
-	_, err := p.conn.Exec(ctx, sqlStatement, id, user.Name)
+	_, err := p.conn.Exec(ctx, sqlStatement, user.Id, user.Name)
 	if err != nil {
 		return err
 	}
-
-	defer func(conn *pgx.Conn, ctx context.Context) {
-		err := conn.Close(ctx)
-		if err != nil {
-
-		}
-	}(p.conn, ctx)
 	return nil
 }
 
@@ -53,12 +43,6 @@ func (p Postgres) Get(ctx context.Context, id int64) (*model.User, error) {
 		log.Printf("Не удалось выполнить запрос: %v", err)
 		return nil, err
 	}
-	defer func(conn *pgx.Conn, ctx context.Context) {
-		err := conn.Close(ctx)
-		if err != nil {
-
-		}
-	}(p.conn, ctx)
 	return &user, nil
 }
 
@@ -73,12 +57,6 @@ func (p Postgres) Check(ctx context.Context, id int64) (bool, error) {
 	if count > 0 {
 		return true, nil
 	}
-	defer func(conn *pgx.Conn, ctx context.Context) {
-		err := conn.Close(ctx)
-		if err != nil {
-
-		}
-	}(p.conn, ctx)
 	return false, nil
 }
 
@@ -97,25 +75,29 @@ func (p Postgres) Delete(ctx context.Context, id int64) error {
 	} else {
 		fmt.Println("Пользователь успешно удален")
 	}
-
-	defer func(conn *pgx.Conn, ctx context.Context) {
-		err := conn.Close(ctx)
-		if err != nil {
-
-		}
-	}(p.conn, ctx)
 	return nil
 
 }
 
 func (p Postgres) GetAllId(ctx context.Context) []int64 {
+
+	sqlNewTable := `CREATE TABLE IF NOT EXISTS users(
+    id INTEGER,
+    name VARCHAR
+)`
+
+	_, err := p.conn.Exec(ctx, sqlNewTable)
+	if err != nil {
+		log.Fatal("Не удалось создать таблицу")
+	}
+
 	sqlStatement := "SELECT id FROM users;"
 
 	rows, err := p.conn.Query(ctx, sqlStatement)
 	if err != nil {
 		log.Printf("Не удалось выполнить запрос: %v", err)
 	}
-	rows.Close()
+
 	var ids []int64
 
 	for rows.Next() {

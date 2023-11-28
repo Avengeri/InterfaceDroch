@@ -15,6 +15,7 @@ func main() {
 		log.Fatal("storage is nil")
 		return
 	}
+
 	println()
 	ids := storage.GetAllId(ctx)
 	fmt.Printf("Список пользователей: %d\n", ids)
