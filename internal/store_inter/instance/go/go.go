@@ -2,19 +2,19 @@ package store_map
 
 import (
 	"InterfaceDroch/internal/model"
-	"InterfaceDroch/internal/store"
+	"InterfaceDroch/internal/store_inter"
 	"context"
 	"errors"
 	"fmt"
 )
 
-var _ store.Storage = &database{}
+var _ store_inter.Storage = &database{}
 
 type database struct {
 	data map[int64]*model.User
 }
 
-func New() store.Storage {
+func New() store_inter.Storage {
 	return &database{
 		data: make(map[int64]*model.User),
 	}

@@ -12,8 +12,7 @@ type Postgres struct {
 	conn *pgx.Conn
 }
 
-func NewPostgresDB() (*Postgres, error) {
-	connStr := "user=postgres password=12345 dbname=postgres host=localhost port=5432"
+func NewPostgresDB(connStr string) (*Postgres, error) {
 	dbConn, err := pgx.Connect(context.Background(), connStr)
 	if err != nil {
 		return nil, err
@@ -38,7 +37,7 @@ func (p Postgres) Get(ctx context.Context, id int64) (*model.User, error) {
 
 	var user model.User
 
-	err := p.conn.QueryRow(ctx, sqlStatement, id).Scan(&user.Id)
+	err := p.conn.QueryRow(ctx, sqlStatement, id).Scan(&user.Name)
 	if err != nil {
 		log.Printf("Не удалось выполнить запрос: %v", err)
 		return nil, err

@@ -1,8 +1,16 @@
-package store
+package store_inter
 
 import (
 	"InterfaceDroch/internal/model"
 	"context"
+)
+
+type StoreType string
+
+var (
+	StoreMap      StoreType = "StoreMap"
+	StorePostgres StoreType = "StorePostgres"
+	StoreRedis    StoreType = "StoreRedis"
 )
 
 type Storage interface {

@@ -2,7 +2,15 @@ version: '3'
 services:
   postgres:
     image: postgres:latest
+    container_name: db
     environment:
-     POSTGRES_PASSWORD: 12345
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
+  redis:
+    image: redis:latest
+    container_name: redis
+#    environment:
+#      REDIS_PASSWORD: ${REDIS_PASSWORD} // TOCHECK
+    ports:
+      - "6379:6379"

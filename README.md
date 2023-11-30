@@ -5,7 +5,7 @@
 ### Порядок запуска программы:
 
 Для работы с БД типа map:
-- В файле main.go вставьте аргумент `store_new.StoreMap` в соответствующее поле функции `store_new.NewStore`
+- В файле main.go вставьте `StoreType := store_new.StoreMap` в соответсвующее место.
 - Запустите функцию `main` в файле `main.go`
 - Посмотрите в консоль и вы все увидите
 
@@ -13,7 +13,15 @@
 
 1. Установите Docker на свой компьютер. Инструкцию по установке можно найти [здесь](https://www.docker.com/)
 2. Проверьте установлен ли `Docker Compose` с помощью команды  `docker compose version`. Если он не установлен, то не мои проблемы, решите сами этот вопрос! :thinking:	
-3. В файле main.go вставьте аргумент `store_new.StorePostgres` в соответствующее поле функции `store_new.NewStore`
+3. В файле main.go вставьте `StoreType := store_new.StorePostgres` в соответсвующее место.
+4. Убедитесь что вы находитесь в корне проекта и введите команду `make up` для запуска БД и `make down` для остановки БД
+5. Запустите функцию `main` в файле `main.go`
+
+Для работы с БД типа Redis:
+
+1. Установите Docker на свой компьютер. Инструкцию по установке можно найти [здесь](https://www.docker.com/)
+2. Проверьте установлен ли `Docker Compose` с помощью команды  `docker compose version`. Если он не установлен, то не мои проблемы, решите сами этот вопрос! :thinking:
+3.  В файле main.go вставьте `StoreType := store_new.StoreRedis` в соответсвующее место.
 4. Убедитесь что вы находитесь в корне проекта и введите команду `make up` для запуска БД и `make down` для остановки БД
 5. Запустите функцию `main` в файле `main.go`
 
@@ -21,15 +29,50 @@
 
 ```Go
 func main() {
-	ctx := context.Background()
-	storage, _ := store_new.NewStore(store_new.StoreMap)
-	if storage == nil {
-		log.Fatal("storage is nil")
-		return
-	}
+envFilePath := "./.env"
+err := godotenv.Load(envFilePath)
+if err != nil {
+log.Fatal("Не удалось загрузить переменную окружения")
+}
+
+StoreType := store_inter.StoreRedis
+
+var storage store_inter.Storage
+
+switch StoreType {
 ```
 
+## Инструкция по подключению
+Замените название файла `.env.example` на `.env` и укажите значения переменных
+
+## Команды  для запуска
+```shell
+docker pull redis:latest  # Скачать образ Redis
+```
+```shell
+docker pull postgres:latest # Скачать образ PostgresQL
+```
+```shell
+make up # Запускает контейнер с БД
+```
+
+```shell
+make down # Останавливает контейнер с БД
+```
+```shell
+make restart # Перезапускает контейнер
+```
+```shell
+make build # Собирает приложение в exe файл
+```
+```shell
+make run # Собирает приложение в exe файл и запускает его
+```
+
+## Инструкция как запустить в продакшне:
+- Я хз
+
+
+
+
 > Если вы хотите пожаловаться, то обязательно пишите [сюда](https://t.me/zak47) 
-
-![Суслик](https://www.pngitem.com/pimgs/m/285-2854983_gopher-golang-russian-gophercon-russia-2018-hd-png.png)
-
